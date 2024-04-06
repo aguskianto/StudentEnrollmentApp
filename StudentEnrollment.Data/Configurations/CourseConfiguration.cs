@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StudentEnrollment.Data.Configurations
+namespace StudentEnrollmentData.Configurations
 {
     internal class CourseConfiguration : IEntityTypeConfiguration<Course>
     {

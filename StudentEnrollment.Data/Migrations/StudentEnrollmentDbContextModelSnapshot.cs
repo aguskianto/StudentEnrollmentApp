@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using StudentEnrollment.Data;
+using StudentEnrollmentData;
 
 #nullable disable
 
-namespace StudentEnrollment.Data.Migrations
+namespace StudentEnrollmentData.Migrations
 {
     [DbContext(typeof(StudentEnrollmentDbContext))]
     partial class StudentEnrollmentDbContextModelSnapshot : ModelSnapshot

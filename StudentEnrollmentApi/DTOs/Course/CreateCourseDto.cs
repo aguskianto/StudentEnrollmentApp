@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StudentEnrollmentData
+namespace StudentEnrollmentApi.DTOs.Course
 {
-    public class Course : BaseEntity
+    public class CreateCourseDto
     {
         public string Title { get; set; }
         public int Credits { get; set; }
-        public List<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
     }
 }

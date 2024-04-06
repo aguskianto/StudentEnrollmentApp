@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using StudentEnrollment.Data;
+using StudentEnrollmentData;
 
 #nullable disable
 
-namespace StudentEnrollment.Data.Migrations
+namespace StudentEnrollmentData.Migrations
 {
     [DbContext(typeof(StudentEnrollmentDbContext))]
     [Migration("20240402062604_Initial")]

@@ -1,4 +1,4 @@
-﻿namespace StudentEnrollment.Data
+﻿namespace StudentEnrollmentData
 {
     public abstract class BaseEntity
     {
