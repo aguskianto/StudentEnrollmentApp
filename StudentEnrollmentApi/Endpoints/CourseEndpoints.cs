@@ -6,6 +6,7 @@ using StudentEnrollmentApi.DTOs.Course;
 using AutoMapper;
 using StudentEnrollmentData.Contracts;
 using StudentEnrollmentApi.DTOs.Enrollment;
+using Microsoft.AspNetCore.Authorization;
 
 namespace StudentEnrollmentApi.Endpoints;
 
@@ -17,7 +18,7 @@ public static class CourseEndpoints
 
         //StudentEnrollmentDbContext db
 
-        group.MapGet("/", async (ICourseRepository repo, IMapper mapper) =>
+        group.MapGet("/", [AllowAnonymous] async (ICourseRepository repo, IMapper mapper) =>
         {
             //var courses = await db.Courses.ToListAsync();
             var courses = await repo.GetAllAsync();
@@ -40,7 +41,7 @@ public static class CourseEndpoints
         .WithName("GetAllCourses")
         .WithOpenApi();
 
-        group.MapGet("/{id}", async Task<Results<Ok<CourseDto>, NotFound>> (int id, ICourseRepository repo, IMapper mapper) =>
+        group.MapGet("/{id}", [AllowAnonymous] async Task<Results<Ok<CourseDto>, NotFound>> (int id, ICourseRepository repo, IMapper mapper) =>
         {
             //var foundModel = await db.Courses.FindAsync(id);
             //var foundModel = await repo.GetAsync(id);
@@ -95,7 +96,7 @@ public static class CourseEndpoints
         .WithName("UpdateCourse")
         .WithOpenApi();
 
-        group.MapPost("/", async (CreateCourseDto createCourseDto, ICourseRepository repo, IMapper mapper) =>
+        group.MapPost("/", [Authorize] async (CreateCourseDto createCourseDto, ICourseRepository repo, IMapper mapper) =>
         {
             var course = mapper.Map<Course>(createCourseDto);
 
@@ -113,7 +114,7 @@ public static class CourseEndpoints
         .WithName("CreateCourse")
         .WithOpenApi();
 
-        group.MapDelete("/{id}", async Task<Results<NoContent, NotFound>> (int id, ICourseRepository repo) =>
+        group.MapDelete("/{id}", [Authorize(Roles = "Administrator")] async Task<Results<NoContent, NotFound>> (int id, ICourseRepository repo) =>
         {
             //var foundModel = await db.Courses.FindAsync(id);
             //var foundModel = await repo.GetAsync(id);

@@ -6,6 +6,7 @@ using AutoMapper;
 using StudentEnrollmentApi.DTOs.Student;
 using StudentEnrollmentData.Contracts;
 using StudentEnrollmentApi.DTOs.Course;
+using Microsoft.AspNetCore.Authorization;
 namespace StudentEnrollmentApi.Endpoints;
 
 public static class StudentEndpoints
@@ -16,7 +17,7 @@ public static class StudentEndpoints
 
         // StudentEnrollmentDbContext db
 
-        group.MapGet("/", async (IStudentRepository repo, IMapper mapper) =>
+        group.MapGet("/", [AllowAnonymous] async (IStudentRepository repo, IMapper mapper) =>
         {
             //var students = await db.Students.ToListAsync();
             var students = await repo.GetAllAsync();
@@ -28,7 +29,7 @@ public static class StudentEndpoints
         .Produces<List<StudentDto>>(StatusCodes.Status200OK)
         .WithOpenApi();
 
-        group.MapGet("/{id}", async Task<Results<Ok<StudentDto>, NotFound>> (int id, IStudentRepository repo, IMapper mapper) =>
+        group.MapGet("/{id}", [AllowAnonymous] async Task<Results<Ok<StudentDto>, NotFound>> (int id, IStudentRepository repo, IMapper mapper) =>
         {
             //var foundModel = await db.Students.FindAsync(id);
             //var data = mapper.Map<StudentDto>(foundModel);
@@ -57,7 +58,7 @@ public static class StudentEndpoints
         .WithName("GetStudentDetailsById")
         .WithOpenApi();
 
-        group.MapPut("/{id}", async Task<Results<NoContent, NotFound>> (int id, StudentDto studentDto, IStudentRepository repo, IMapper mapper) =>
+        group.MapPut("/{id}", [Authorize(Roles = "Administrator")] async Task<Results<NoContent, NotFound>> (int id, StudentDto studentDto, IStudentRepository repo, IMapper mapper) =>
         {
             //var foundModel = await db.Students.FindAsync(id);
             var foundModel = await repo.GetAsync(id);
@@ -88,7 +89,7 @@ public static class StudentEndpoints
         .WithName("UpdateStudent")
         .WithOpenApi();
 
-        group.MapPost("/", async (CreateStudentDto createStudentDto, IStudentRepository repo, IMapper mapper) =>
+        group.MapPost("/", [Authorize(Roles = "Administrator")] async (CreateStudentDto createStudentDto, IStudentRepository repo, IMapper mapper) =>
         {
             var data = mapper.Map<Student>(createStudentDto);
 
@@ -102,7 +103,7 @@ public static class StudentEndpoints
         .WithName("CreateStudent")
         .WithOpenApi();
 
-        group.MapDelete("/{id}", async Task<Results<NoContent, NotFound>> (int id, IStudentRepository repo) =>
+        group.MapDelete("/{id}", [Authorize(Roles = "Administrator")] async Task<Results<NoContent, NotFound>> (int id, IStudentRepository repo) =>
         {
             //var foundModel = await db.Students.FindAsync(id);
 

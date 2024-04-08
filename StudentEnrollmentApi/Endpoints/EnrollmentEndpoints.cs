@@ -7,6 +7,7 @@ using AutoMapper;
 using StudentEnrollmentApi.DTOs.Enrollment;
 //using StudentEnrollmentApi.DTOs.Course;
 using StudentEnrollmentData.Contracts;
+using Microsoft.AspNetCore.Authorization;
 namespace StudentEnrollmentApi.Endpoints;
 
 public static class EnrollmentEndpoints
@@ -58,7 +59,7 @@ public static class EnrollmentEndpoints
         .WithName("GetEnrollmentById")
         .WithOpenApi();
 
-        group.MapPut("/{id}", async Task<Results<NoContent, NotFound>> (int id, EnrollmentDto enrollmentDto, IEnrollmentRepository repo, IMapper mapper) =>
+        group.MapPut("/{id}", [Authorize(Roles = "Administrator")] async Task<Results<NoContent, NotFound>> (int id, EnrollmentDto enrollmentDto, IEnrollmentRepository repo, IMapper mapper) =>
         {
             //var foundModel = await db.Enrollments.FindAsync(id);
             var foundModel = await repo.GetAsync(id);
@@ -98,7 +99,7 @@ public static class EnrollmentEndpoints
         .WithName("CreateEnrollment")
         .WithOpenApi();
 
-        group.MapDelete("/{id}", async Task<Results<NoContent, NotFound>> (int id, IEnrollmentRepository repo) =>
+        group.MapDelete("/{id}", [Authorize(Roles = "Administrator")] async Task<Results<NoContent, NotFound>> (int id, IEnrollmentRepository repo) =>
         {
             //var foundModel = await db.Courses.FindAsync(id);
             //var foundModel = await repo.GetAsync(id);
